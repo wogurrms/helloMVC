@@ -32,16 +32,17 @@ public class DoLogin extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String customerID = request.getParameter("customerID");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String customerID = request.getParameter("id");
+		String passwd = request.getParameter("password");
 		
 		//perform businessLogic, Return a bean as a result.
 		
 		//service 객체 생성
-		CustomerService service = new CustomerService();
+//		CustomerService service = new CustomerService();
 		
 		//service를 이용하여 파라미터로 Customer객체를 찾아서 리턴	받음.
-		Customer customer = service.findCustomer(customerID);
+		Customer customer = CustomerService.getInstance().findCustomer(customerID);
 		
 		//customer 객체에 "customer"라는 아이디 부여
 		request.setAttribute("customer", customer);
@@ -49,20 +50,21 @@ public class DoLogin extends HttpServlet {
 		//We can iterate over lists using forEach in JSTL
 		
 		List<Customer> customers = new ArrayList<>();
-		customers.add(new Customer("id006","Kim","kim@hansung.ac.kr"));
-		customers.add(new Customer("id007","Lee","lee@hansung.ac.kr"));
-		customers.add(new Customer("id008","Park","park@hansung.ac.kr"));
 		request.setAttribute("customerList",customers);
 		
 		
 		
-		String page;
+		String page = null;
 		
 		
-		if(customer == null)
-			page = "/view/error.jsp";
-		else
-			page = "/view/success.jsp";
+		if(CustomerService.getInstance().comparePasswd(customer, passwd)){
+			page = "/view/loginSuccess.jsp";
+			request.setAttribute("customer", customer);
+		}
+		else if(customer == null){
+			page = "/view/loginFail.jsp";
+			request.setAttribute("id", customerID);	
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);

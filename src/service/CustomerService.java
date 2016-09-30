@@ -7,17 +7,17 @@ import model.Customer;
 
 public class CustomerService {
 	private Map<String, Customer> customers;
-
-	public CustomerService() {
+	
+	private static final CustomerService instance = new CustomerService(); 
+	
+	private CustomerService() {
 		customers = new HashMap<String,Customer>();
-		
-		addCustomer(new Customer("id001","Alice","alice.hansung.ac.kr"));
-		addCustomer(new Customer("id002","Bob","bob.hansung.ac.kr"));
-		addCustomer(new Customer("id003","Charie","charie.hansung.ac.kr"));
-		addCustomer(new Customer("id004","David","david.hansung.ac.kr"));
-		addCustomer(new Customer("id005","Trudy","trudy.hansung.ac.kr"));
-
 	}
+	
+	public static CustomerService getInstance(){
+		return instance;
+	}
+	
 	
 	public void addCustomer(Customer customer){
 		customers.put(customer.getId(),customer);
@@ -30,5 +30,12 @@ public class CustomerService {
 		else
 			return null;
 	}
-	
+	public boolean comparePasswd(Customer customer,String passwd){
+		if(customer.getPassword().toLowerCase().equals(passwd.toLowerCase())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
