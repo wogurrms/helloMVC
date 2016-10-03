@@ -70,9 +70,7 @@ div.ex {
 				<label for="pwd">Password:</label> 
 				<input type="password" class="form-control" name="password" placeholder="Enter password">
 			</div>
-			<div class="checkbox">
-				<label><input type="checkbox"> Remember me</label>
-			</div>
+			
 			<input type="submit" class="btn btn-default" value="Submit">
 		</form>
 	</div>

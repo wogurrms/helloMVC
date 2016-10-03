@@ -19,19 +19,26 @@ public class CustomerService {
 	}
 	
 	
+	
+	
 	public void addCustomer(Customer customer){
 		customers.put(customer.getId(),customer);
 	}
 	
 	public Customer findCustomer(String id){
-		if(id != null){
+		if(id != null && customers.containsKey(id)){
 			return (customers.get(id.toLowerCase()));
 		}
-		else
+		else if(customers.containsKey(id) == false)
+			return null;
+		else 
 			return null;
 	}
+	
 	public boolean comparePasswd(Customer customer,String passwd){
-		if(customer.getPassword().toLowerCase().equals(passwd.toLowerCase())){
+		if(customer == null)
+			return false;
+		else if(customer.getPassword().toLowerCase().equals(passwd.toLowerCase())){
 			return true;
 		}
 		else{

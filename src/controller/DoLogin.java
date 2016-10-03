@@ -65,7 +65,10 @@ public class DoLogin extends HttpServlet {
 			page = "/view/loginFail.jsp";
 			request.setAttribute("id", customerID);	
 		}
-		
+		else{
+			page = "/view/error.jsp";
+		}
+			
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 			
